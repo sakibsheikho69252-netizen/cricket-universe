@@ -1,0 +1,19 @@
+{
+  "name": "Cricket Universe",
+  "short_name": "CricketU",
+  "description": "Original fictional browser cricket game",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "fullscreen",
+  "orientation": "any",
+  "background_color": "#0a1e12",
+  "theme_color": "#0a1e12",
+  "icons": [
+    {
+      "src": "./icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
