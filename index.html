@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Cricket Universe</title>
+<link rel="stylesheet" href="./style.css">
+</head>
+<body>
+<div id="app">
+<section id="screen-menu" class="screen active">
+<h1 class="logo">CRICKET UNIVERSE</h1>
+<p class="tagline">Original fictional cricket simulation</p>
+<div class="menu-buttons">
+<button class="btn primary" data-action="quick-match">Quick Match</button>
+<button class="btn" data-action="tournament">Tournament</button>
+<button class="btn" data-action="career">Career Mode</button>
+<button class="btn" data-action="training">Training</button>
+<button class="btn" data-action="achievements">Achievements</button>
+<button class="btn" data-action="records">Records</button>
+<button class="btn" data-action="settings">Settings</button>
+<button class="btn ghost" data-action="load-game">Load Save</button>
+<button class="btn ghost" data-action="fullscreen">Fullscreen</button>
+</div>
+</section>
+<section id="screen-setup" class="screen">
+<header class="screen-head"><button class="back-btn" data-back="menu">Back</button><h2>Match Setup</h2></header>
+<div class="setup-body">
+<div class="setup-row"><label>Match Format</label><select id="setup-format"><option value="T20">T20</option><option value="ODI">ODI</option><option value="T10">T10</option><option value="Test">Test</option><option value="Custom">Custom</option></select></div>
+<div class="setup-row" id="row-overs" style="display:none"><label>Overs</label><input id="setup-overs" type="number" min="1" max="90" value="20"></div>
+<div class="setup-row"><label>Wickets</label><input id="setup-wickets" type="number" min="1" max="10" value="10"></div>
+<div class="setup-row"><label>Team A</label><select id="setup-teamA"></select></div>
+<div class="setup-row"><label>Team B</label><select id="setup-teamB"></select></div>
+<div class="setup-row"><label>Difficulty</label><select id="setup-diff"><option>Easy</option><option selected>Normal</option><option>Hard</option><option>Expert</option><option>Legend</option></select></div>
+<div class="setup-row"><label>Pitch</label><select id="setup-pitch"></select></div>
+<div class="setup-row"><label>Weather</label><select id="setup-weather"></select></div>
+<div class="setup-row"><label>Stadium</label><select id="setup-stadium"></select></div>
+<div class="setup-row"><label>Time</label><select id="setup-time"><option>Day</option><option>Night</option></select></div>
+<button class="btn primary big" data-action="start-setup">Continue to Toss</button>
+</div>
+</section>
+<section id="screen-toss" class="screen">
+<h2 class="center-title">The Toss</h2>
+<div class="toss-body">
+<div class="coin" id="coin">COIN</div>
+<p id="toss-status">Call it in the air...</p>
+<div class="toss-buttons" id="toss-call"><button class="btn primary" data-toss="Heads">Heads</button><button class="btn primary" data-toss="Tails">Tails</button></div>
+<div class="toss-buttons" id="toss-choice" style="display:none"><button class="btn primary" data-choice="Bat">Bat</button><button class="btn primary" data-choice="Bowl">Bowl</button></div>
+<button class="btn ghost" data-action="auto-toss" id="auto-toss-btn">AI decides for me</button>
+</div>
+</section>
+<section id="screen-xi" class="screen">
+<header class="screen-head"><h2 id="xi-title">Playing XI</h2><span id="xi-count">0/11</span></header>
+<div id="xi-list" class="xi-list"></div>
+<button class="btn primary big" data-action="confirm-xi">Confirm XI</button>
+</section>
+<section id="screen-match" class="screen">
+<canvas id="field"></canvas>
+<div id="hud-top">
+<div class="hud-score-block"><div class="hud-team" id="hud-team">-</div><div class="hud-runs" id="hud-runs">0/0</div><div class="hud-overs" id="hud-overs">(0.0)</div></div>
+<div class="hud-target" id="hud-target"></div>
+<button class="icon-btn" data-action="pause">P</button>
+</div>
+<div id="hud-players"><div class="player-chip striker" id="hud-striker"></div><div class="player-chip bowler" id="hud-bowler"></div></div>
+<div id="hud-fow" class="hud-mini"></div>
+<div id="hud-lastover" class="hud-mini"></div>
+<div id="commentary" class="commentary"></div>
+<div id="timing-wrap" class="timing-wrap hidden"><div class="timing-track"><div class="timing-zone"></div><div class="timing-cursor" id="timing-cursor"></div></div><div class="timing-hint">TAP to swing</div></div>
+<div id="hud-controls" class="hud-controls"></div>
+<div id="result-toast" class="result-toast"></div>
+<div id="umpire-signal" class="umpire-signal"></div>
+</section>
+<section id="screen-scorecard" class="screen">
+<header class="screen-head"><button class="back-btn" data-back="match">Back</button><h2>Scorecard</h2></header>
+<div id="scorecard-body" class="scorecard-body"></div>
+</section>
+<section id="screen-result" class="screen">
+<div class="result-body">
+<h2 id="result-title">Innings Break</h2>
+<p id="result-text"></p>
+<div id="result-extra"></div>
+<button class="btn primary big" data-action="result-continue">Continue</button>
+<button class="btn ghost" data-action="result-scorecard">View Scorecard</button>
+</div>
+</section>
+<section id="screen-pause" class="screen modal">
+<div class="modal-box">
+<h3>Paused</h3>
+<button class="btn primary" data-action="resume">Resume</button>
+<button class="btn" data-action="to-scorecard">Scorecard</button>
+<button class="btn" data-action="save-match">Save Match</button>
+<button class="btn ghost" data-action="quit-match">Quit Match</button>
+</div>
+</section>
+<section id="screen-settings" class="screen">
+<header class="screen-head"><button class="back-btn" data-back="menu">Back</button><h2>Settings</h2></header>
+<div class="settings-body" id="settings-body"></div>
+</section>
+<section id="screen-tournament" class="screen">
+<header class="screen-head"><button class="back-btn" data-back="menu">Back</button><h2>Tournament</h2></header>
+<div class="tournament-body" id="tournament-body"></div>
+</section>
+<section id="screen-career" class="screen">
+<header class="screen-head"><button class="back-btn" data-back="menu">Back</button><h2>Career</h2></header>
+<div class="career-body" id="career-body"></div>
+</section>
+<section id="screen-training" class="screen">
+<header class="screen-head"><button class="back-btn" data-back="menu">Back</button><h2>Training</h2></header>
+<div class="training-body" id="training-body"></div>
+</section>
+<section id="screen-achievements" class="screen">
+<header class="screen-head"><button class="back-btn" data-back="menu">Back</button><h2>Achievements</h2></header>
+<div class="ach-body" id="ach-body"></div>
+</section>
+<section id="screen-records" class="screen">
+<header class="screen-head"><button class="back-btn" data-back="menu">Back</button><h2>Records</h2></header>
+<div class="records-body" id="records-body"></div>
+</section>
+</div>
+<section id="drs-overlay" class="overlay">
+<div class="drs-prompt" id="drs-prompt">
+<h3>REVIEW?</h3>
+<p id="drs-info">Reviews remaining.</p>
+<div class="drs-buttons"><button class="btn primary" id="drs-accept">Review</button><button class="btn ghost" id="drs-decline">Decline</button></div>
+</div>
+<div class="drs-result" id="drs-result">
+<h3>Ball Tracking</h3>
+<canvas id="drs-canvas" width="300" height="300"></canvas>
+<div id="drs-verdict" class="drs-verdict">OUT</div>
+</div>
+</section>
+<script>
+(function(){
+var scripts=['data','audio','save','rules','commentary','ai','match','render','ui','tournament','career','advanced-shots','advanced-bowling','dismissals-extended','umpire','appeal','drs','test-mode','rain','controls','voice','fullscreen','team-career','season','ui-extensions','main'];
+var i=0;
+function next(){
+if(i>=scripts.length)return;
+var s=document.createElement('script');
+s.src='./'+scripts[i++]+'.js';
+s.onload=next;
+s.onerror=function(){console.error('Failed '+s.src);next();};
+document.body.appendChild(s);
+}
+next();
+})();
+</script>
+</body>
+</html>
